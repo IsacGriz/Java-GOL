@@ -1,6 +1,12 @@
 import java.util.Objects;
-
+/***
+ * @author isac
+ * */
 public class Main {
+    /***
+     * @param args w, h, g, s, p;
+     * This method receive the params and calls function executarVerificacoes and print the return
+     * */
     public static void main(String[] args) {
         System.out.println("==========INICIO==========");
         String exec = executarVerificacoes(args);
@@ -8,9 +14,15 @@ public class Main {
 
         System.out.println(exec);
     }
+    /**
+     * @return String informing if it had errors or not
+     * This function get the errors that came from verificarSeValorConsta and soltarErroVariavelInexistente and replace the original values
+     * with the errors and display it
+     * This function is also responsible for calls the others functions and organize the order os executions
+     * */
     static String executarVerificacoes(String[] args) {
         String[] errosVariaveis = verificarSeValorConsta(args);
-        String[] errosValores = verificarSeVariaveisExistem(args);
+        String[] errosValores = soltarErroVariavelInexistente(args);
         String[] argumentosTratados = new String[5];
 
         if (!verificarParametrosRepetidos(args)) {
@@ -33,7 +45,7 @@ public class Main {
         }
 
         for (String argumento : argumentosTratados) {
-            if (argumento != null) System.out.println(argumento);
+            System.out.println(argumento);
         }
 
         if (nullOuNao(errosVariaveis) && nullOuNao(errosValores)) {
@@ -41,7 +53,10 @@ public class Main {
         }
         return "Executado com sucesso";
     }
-
+    /**
+     * @return String
+     *
+     * **/
     static String formatarString(String args) {
         if (args.contains("w")) {
             args = args.replace("w", "width ");
@@ -64,6 +79,31 @@ public class Main {
         args = args.replace("p", "population");
         args = args.replace("=", "=[");
         return args;
+    }
+    static void organizarArgs(String[] args) {
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].charAt(0) == 'w') {
+                String temp = args[0];
+                args[0] = args[i];
+                args[i] = temp;
+            } else if (args[i].charAt(0) == 'h') {
+                String temp = args[1];
+                args[1] = args[i];
+                args[i] = temp;
+            } else if (args[i].charAt(0) == 'g') {
+                String temp = args[2];
+                args[2] = args[i];
+                args[i] = temp;
+            } else if (args[i].charAt(0) == 's') {
+                String temp = args[3];
+                args[3] = args[i];
+                args[i] = temp;
+            } else if (args[i].charAt(0) == 'p') {
+                String temp = args[4];
+                args[4] = args[i];
+                args[i] = temp;
+            }
+        }
     }
 
     static boolean verificarParametrosRepetidos(String[] args) {
@@ -147,7 +187,7 @@ public class Main {
         return erros;
     }
 
-    static String[] verificarSeVariaveisExistem(String[] args) {
+    static String[] soltarErroVariavelInexistente(String[] args) {
         boolean[] temOuNao = new boolean[5];
         String[] erros = new String[5];
 
