@@ -1,31 +1,33 @@
+// Isac de Paula Grizante
+
 import java.util.Objects;
 
 class Main {
-    public static void formatarVariavel(String[] array) {
-        String[] valor = new String[2];
+    public static void formatVariable(String[] array) {
+        String[] value = new String[2];
         for (int i = 0; i < array.length; i++) {
             if (array[i] != null) {
-                valor = array[i].split("=");
+                value = array[i].split("=");
             }
 
-            if (valor[0] != null) {
-                if (valor[0].charAt(0) == 'w' && array[i] != null) {
+            if (value[0] != null) {
+                if (value[0].charAt(0) == 'w' && array[i] != null) {
                     array[i] = array[i].replace("w", "width ");
                     array[i] = array[i].replace("=", "= [");
                     array[i] = array[i] + "]";
-                } else if (valor[0].charAt(0) == 'h' && array[i] != null) {
+                } else if (value[0].charAt(0) == 'h' && array[i] != null) {
                     array[i] = array[i].replace("h", "height ");
                     array[i] = array[i].replace("=", "= [");
                     array[i] = array[i] + "]";
-                } else if (valor[0].charAt(0) == 'g' && array[i] != null) {
+                } else if (value[0].charAt(0) == 'g' && array[i] != null) {
                     array[i] = array[i].replace("g", "generations");
                     array[i] = array[i].replace("=", " = [");
                     array[i] = array[i] + "]";
-                } else if (valor[0].charAt(0) == 's' && array[i] != null) {
+                } else if (value[0].charAt(0) == 's' && array[i] != null) {
                     array[i] = array[i].replace("s", "speed");
                     array[i] = array[i].replace("=", " = [");
                     array[i] = array[i] + "]";
-                } else if (valor[0].charAt(0) == 'p' && array[i] != null) {
+                } else if (value[0].charAt(0) == 'p' && array[i] != null) {
                     array[i] = array[i].replace("p", "population");
                     array[i] = array[i].replace("=", " = [\"");
                     array[i] = array[i] + "\"]";
@@ -33,125 +35,127 @@ class Main {
             }
         }
     }
-    public static String[] verificarSeVariavelExiste(String[] args) {
-        boolean[] temLetra = new boolean[5];
-        String[] errosVariaveis = new String[5];
+    public static String[] verifyIfVariableExists(String[] args) {
+        boolean[] letterExists = new boolean[5];
+        String[] variableErrors = new String[5];
 
-        for (String argumento : args) {
-            String[] valor = argumento.split("=");
-            if (Objects.equals(valor[0], "w")) temLetra[0] = true;
-            else if (Objects.equals(valor[0], "h")) temLetra[1] = true;
-            else if (Objects.equals(valor[0], "g")) temLetra[2] = true;
-            else if (Objects.equals(valor[0], "s")) temLetra[3] = true;
-            else if (Objects.equals(valor[0], "p")) temLetra[4] = true;
+        for (String argue : args) {
+            String[] value = argue.split("=");
+            if (Objects.equals(value[0], "w")) letterExists[0] = true;
+            else if (Objects.equals(value[0], "h")) letterExists[1] = true;
+            else if (Objects.equals(value[0], "g")) letterExists[2] = true;
+            else if (Objects.equals(value[0], "s")) letterExists[3] = true;
+            else if (Objects.equals(value[0], "p")) letterExists[4] = true;
         }
-        if (!temLetra[0]) errosVariaveis[0] = "width" + " = " + "[Não Presente]";
-        if (!temLetra[1]) errosVariaveis[1] = "height" + " = " + "[Não Presente]";
-        if (!temLetra[2]) errosVariaveis[2] = "generations" + " = " + "[Não Presente]";
-        if (!temLetra[3]) errosVariaveis[3] = "speed" + " = " + "[Não Presente]";
-        if (!temLetra[4]) errosVariaveis[4] = "population" + " = " + "[Não Presente]";
+        if (!letterExists[0]) variableErrors[0] = "width = [Não Presente]";
+        if (!letterExists[1]) variableErrors[1] = "height = [Não Presente]";
+        if (!letterExists[2]) variableErrors[2] = "generations = [Não Presente]";
+        if (!letterExists[3]) variableErrors[3] = "speed = [Não Presente]";
+        if (!letterExists[4]) variableErrors[4] = "population = [Não Presente]";
 
-        return errosVariaveis;
+        return variableErrors;
     }
-    public static String[] verificarValores(String[] args) {
-        String[] errosValores = new String[5];
-        int valorInteiro = 0;
-        int valorInteiroHeigth = 0;
-        int valorInteiroWidth = 0;
+    public static String[] verifyValue(String[] args) {
+        String[] valueError = new String[5];
+        int valueInteger = 0;
+        int valueIntegerHeigth = 0;
+        int valueIntegerWidth = 0;
 
         for (String arg : args) {
-            String[] valor = arg.split("=");
-            switch (valor[0]) {
+            String[] value = arg.split("=");
+            switch (value[0]) {
                 case "w" -> {
                     try {
-                        valorInteiroWidth = Integer.parseInt(valor[1]);
+                        valueIntegerWidth = Integer.parseInt(value[1]);
                     } catch (Exception NumberFormatException) {
-                        errosValores[0] = valor[0] + " =" + "Inválido";
+                        valueError[0] = value[0] + " =Inválido";
                     }
-                    if (valorInteiroWidth != 10 && valorInteiroWidth != 20 && valorInteiroWidth != 40 && valorInteiroWidth != 80)
-                        errosValores[0] = valor[0] + " =" + "Inválido";
+                    if (valueIntegerWidth != 10 && valueIntegerWidth != 20 && valueIntegerWidth != 40 && valueIntegerWidth != 80)
+                        valueError[0] = value[0] + " =Inválido";
                 }
                 case "h" -> {
                     try {
-                        valorInteiroHeigth = Integer.parseInt(valor[1]);
+                        valueIntegerHeigth = Integer.parseInt(value[1]);
                     } catch (Exception NumberFormatException) {
-                        errosValores[1] = valor[0] + " =" + "Inválido";
+                        valueError[1] = value[0] + " =Inválido";
                     }
-                    if (valorInteiroHeigth != 10 && valorInteiroHeigth != 20 && valorInteiroHeigth != 40)
-                        errosValores[1] = valor[0] + " =" + "Inválido";
+                    if (valueIntegerHeigth != 10 && valueIntegerHeigth != 20 && valueIntegerHeigth != 40)
+                        valueError[1] = value[0] + " =Inválido";
                 }
                 case "g" -> {
                     try {
-                        valorInteiro = Integer.parseInt(valor[1]);
+                        valueInteger = Integer.parseInt(value[1]);
                     } catch (Exception NumberFormatException) {
-                        errosValores[2] = valor[0] + " =" + "Inválido";
+                        valueError[2] = value[0] + " =Inválido";
                     }
-                    if (valorInteiro < 0) errosValores[2] = valor[0] + " =" + "Inválido";
+                    if (valueInteger < 0) valueError[2] = value[0] + " =Inválido";
                 }
                 case "s" -> {
                     try {
-                        valorInteiro = Integer.parseInt(valor[1]);
+                        valueInteger = Integer.parseInt(value[1]);
                     } catch (Exception NumberFormatException) {
-                        errosValores[3] = valor[0] + " =" + "Inválido";
+                        valueError[3] = value[0] + " =Inválido";
                     }
-                    if (valorInteiro < 250 || valorInteiro > 1000) errosValores[3] = valor[0] + " =" + "Inválido";
+                    if (valueInteger < 250 || valueInteger > 1000) valueError[3] = value[0] + " =Inválido";
                 }
                 case "p" -> {
-                    String[] pSplitado = valor[1].split("#");
-                    for (int j = 0; j < valor[1].length(); j++) {
-                        if (valor[1].charAt(j) != '0' && valor[1].charAt(j) != '1' && valor[1].charAt(j) != '#' && !valor[1].equals("rnd")) {
-                            errosValores[4] = valor[0] + " =" + "Inválido";
+                    String[] splitP = value[1].split("#");
+                    for (int j = 0; j < value[1].length(); j++) {
+                        if (value[1].charAt(j) != '0' && value[1].charAt(j) != '1' && value[1].charAt(j) != '#' && !value[1].equals("rnd")) {
+                            valueError[4] = value[0] + " =Inválido";
                             break;
                         }
                     }
-                    for (String parte : pSplitado) {
-                        if (parte.length() > valorInteiroWidth) {
-                            errosValores[4] = valor[0] + " =" + "Inválido";
+                    for (String parte : splitP) {
+                        if (parte.length() > valueIntegerWidth) {
+                            valueError[4] = value[0] + " =Inválido";
                             break;
                         }
                     }
-                    if (pSplitado.length > valorInteiroHeigth) {
-                        errosValores[4] = valor[0] + " =" + "Inválido";
+                    if (splitP.length > valueIntegerHeigth) {
+                        valueError[4] = value[0] + " =Inválido";
                     }
                 }
             }
         }
-        formatarVariavel(errosValores);
-        return errosValores;
+        formatVariable(valueError);
+        return valueError;
     }
-    static void organizarArgumentos (String[] errosValores, String[] variaveisInexistentes, String[] args) {
-        String[] errosTotais = new String[5];
-        String[] argsOrganizados = new String[5];
+    static void orderArgs (String[] valueError, String[] nonExistentVariables, String[] args) {
+        String[] totalErrors = new String[5];
+        String[] organizedArgues = new String[5];
 
         for (int i = 0; i < 5; i++) {
-            if (variaveisInexistentes[i] == null) {
-                errosTotais[i] = errosValores[i];
+            if (nonExistentVariables[i] == null) {
+                totalErrors[i] = valueError[i];
             } else {
-                errosTotais[i] = variaveisInexistentes[i];
+                totalErrors[i] = nonExistentVariables[i];
             }
         }
 
-        for (String argumento : args) {
-            if (argumento.charAt(0) == 'w') argsOrganizados[0] = argumento;
-            else if (argumento.charAt(0) == 'h') argsOrganizados[1] = argumento;
-            else if (argumento.charAt(0) == 'g') argsOrganizados[2] = argumento;
-            else if (argumento.charAt(0) == 's') argsOrganizados[3] = argumento;
-            else if (argumento.charAt(0) == 'p') argsOrganizados[4] = argumento;
+        for (String argue : args) {
+            if (argue.charAt(0) == 'w') organizedArgues[0] = argue;
+            else if (argue.charAt(0) == 'h') organizedArgues[1] = argue;
+            else if (argue.charAt(0) == 'g') organizedArgues[2] = argue;
+            else if (argue.charAt(0) == 's') organizedArgues[3] = argue;
+            else if (argue.charAt(0) == 'p') organizedArgues[4] = argue;
         }
 
-        formatarVariavel(argsOrganizados);
+        formatVariable(organizedArgues);
 
         for (int i = 0; i < 5; i++) {
-            if (errosTotais[i] == null) {
-                System.out.println(argsOrganizados[i]);
+            if (totalErrors[i] == null) {
+                args[i] = organizedArgues[i];
             } else {
-                System.out.println(errosTotais[i]);
+                args[i] = totalErrors[i];
             }
         }
+
+        Logica.main(args);
     }
     public static void main(String[] args) {
-        String[] errosVariaveis = verificarSeVariavelExiste(args);
-        String[] errosValores = verificarValores(args);
-        organizarArgumentos(errosValores, errosVariaveis, args);
+        String[] variableErrors = verifyIfVariableExists(args);
+        String[] valueError = verifyValue(args);
+        orderArgs(valueError, variableErrors, args);
     }
 }
