@@ -1,4 +1,4 @@
-// Isac de Paula Grizante
+package gol;// Isac de Paula Grizante
 
 import java.util.Objects;
 
@@ -101,7 +101,7 @@ class Main {
                 case "p" -> {
                     String[] splitP = value[1].split("#");
                     for (int j = 0; j < value[1].length(); j++) {
-                        if (value[1].charAt(j) != '0' && value[1].charAt(j) != '1' && value[1].charAt(j) != '#' && !value[1].equals("rnd")) {
+                        if (value[1].charAt(j) != '0' && value[1].charAt(j) != '1' && value[1].charAt(j) != '#' && !value[1].equalsIgnoreCase("rnd")) {
                             valueError[4] = value[0] + " =Inválido";
                             break;
                         }
@@ -121,7 +121,7 @@ class Main {
         formatVariable(valueError);
         return valueError;
     }
-    static void orderArgs (String[] valueError, String[] nonExistentVariables, String[] args) {
+    static String orderArgs (String[] valueError, String[] nonExistentVariables, String[] args) {
         String[] totalErrors = new String[5];
         String[] organizedArgues = new String[5];
 
@@ -145,17 +145,25 @@ class Main {
 
         for (int i = 0; i < 5; i++) {
             if (totalErrors[i] == null) {
+                System.out.println(organizedArgues[i]);
                 args[i] = organizedArgues[i];
             } else {
+                System.out.println(totalErrors[i]);
                 args[i] = totalErrors[i];
             }
         }
 
+        for (int i = 0; i < 5; i++) {
+            if (totalErrors[i] != null) return "Não podemos continuar por conta dos valores inválidos!";
+        }
+
         Logica.main(args);
+
+        return "";
     }
     public static void main(String[] args) {
         String[] variableErrors = verifyIfVariableExists(args);
         String[] valueError = verifyValue(args);
-        orderArgs(valueError, variableErrors, args);
+        System.out.println(orderArgs(valueError, variableErrors, args));
     }
 }
