@@ -12,13 +12,20 @@ class Logica {
 
         final String[] population = {args[4].substring(15, args[4].length() - 2)};
 
-        if (population[0].equals("RND")) {
+        if (population[0].equalsIgnoreCase("RND")) {
             population[0] = createRandomGrid(rows, cols);
         }
 
         population[0] = population[0].replaceAll("#", "\n").replaceAll("0", ".").replaceAll("1", "X");
 
-        final String[][][] populationArray = {{population[0].split("\n")}};
+        String[] populationArray = population[0].split("\n");
+        String[][] finalPopulation = new String[1][rows];
+
+        for (int i = 0; i < finalPopulation[0].length; i++) {
+            finalPopulation[0][i] = ".";
+            if (i < populationArray.length) finalPopulation[0][i] = populationArray[i];
+            while (finalPopulation[0][i].length() < rows) finalPopulation[0][i] += ".";
+        }
 
         population[0] = "";
 
@@ -27,14 +34,14 @@ class Logica {
             public String getNextGenerationAsString(long generation) {
                 population[0] = "";
 
-                for (int i = 0; i < populationArray[0][0].length; i++) {
-                    for (int j = 0; j < populationArray[0][0][i].length(); j++) {
-                        population[0] += verificarVizinhos(populationArray[0][0], i, j);
+                for (int i = 0; i < finalPopulation[0].length; i++) {
+                    for (int j = 0; j < finalPopulation[0][i].length(); j++) {
+                        population[0] += verificarVizinhos(finalPopulation[0], i, j);
                     }
                     population[0] += "\n";
                 }
 
-                populationArray[0][0] = population[0].split("\n");
+                finalPopulation[0] = population[0].split("\n");
 
                 return population[0];
             }
@@ -59,13 +66,15 @@ class Logica {
     }
     static String createRandomGrid(int rows, int cols) {
         var random  = new Random();
-        String grid = "";
+        String population = "";
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                grid +=  random.nextBoolean()? "X": ".";
+                population +=  random.nextBoolean()? "X": ".";
             }
-            grid +=  "\n";
-        };
-        return grid;
+            population +=  "\n";
+        }
+
+        return population;
     }
 }
