@@ -3,29 +3,25 @@ package gol;
 import java.util.Objects;
 import java.util.Random;
 
-class Logica {
-    public static void main(String[] args) {
-        int rows = Integer.parseInt(args[0].substring(9, args[0].length() - 1));
-        int cols = Integer.parseInt(args[1].substring(10, args[1].length() - 1));
-        int maxGenerations = Integer.parseInt(args[2].substring(15, args[2].length() - 1));
-        int frequency = Integer.parseInt(args[3].substring(9, args[3].length() - 1));
+class Logica extends Main{
+    Main main = new Main();
+    int rows = main.height;
+    int cols = main.width;
+    int maxGenerations = main.generations;
+    int frequency = main.speed;
 
-        final String[] population = {args[4].substring(15, args[4].length() - 2)};
+    final String[] population = {main.population};
 
+    public void mandarProSwing() {
+
+        System.out.println(main.speed);
         if (population[0].equalsIgnoreCase("RND")) {
             population[0] = createRandomGrid(rows, cols);
         }
 
         population[0] = population[0].replaceAll("#", "\n").replaceAll("0", ".").replaceAll("1", "X");
 
-        String[] populationArray = population[0].split("\n");
-        String[][] finalPopulation = new String[1][rows];
-
-        for (int i = 0; i < finalPopulation[0].length; i++) {
-            finalPopulation[0][i] = ".";
-            if (i < populationArray.length) finalPopulation[0][i] = populationArray[i];
-            while (finalPopulation[0][i].length() < rows) finalPopulation[0][i] += ".";
-        }
+        String[][] finalPopulation = transformarPopulacaoEmArray(population);
 
         population[0] = "";
 
@@ -49,7 +45,18 @@ class Logica {
 
         SwingRenderer.render(generator, new GolSettings(rows, cols,frequency, maxGenerations));
     }
-    public static String verificarVizinhos(String[] matriz, int linha, int coluna) {
+    private String[][] transformarPopulacaoEmArray(String[] population) {
+        String[] populationArray = population[0].split("\n");
+        String[][] finalPopulation = new String[1][rows];
+
+        for (int i = 0; i < finalPopulation[0].length; i++) {
+            finalPopulation[0][i] = ".";
+            if (i < populationArray.length) finalPopulation[0][i] = populationArray[i];
+            while (finalPopulation[0][i].length() < rows) finalPopulation[0][i] += ".";
+        }
+        return finalPopulation;
+    }
+    private String verificarVizinhos(String[] matriz, int linha, int coluna) {
         String vizinho = "";
 
         for (int i = linha - 1; i <= linha + 1; i++) {
@@ -64,7 +71,7 @@ class Logica {
         else if (vizinho.length() == 3) return "X";
         return String.valueOf(matriz[linha].charAt(coluna));
     }
-    static String createRandomGrid(int rows, int cols) {
+    private String createRandomGrid(int rows, int cols) {
         var random  = new Random();
         String population = "";
 
